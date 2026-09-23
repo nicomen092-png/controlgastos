@@ -81,8 +81,7 @@ Requiere iOS 17 o superior y la tarjeta agregada en Wallet.
    | 4 | **Elegir de la lista** | Lista = *Texto dividido*. Toca ▸ y en *Mensaje* escribe **¿En qué categoría?** |
    | 5 | **Solicitar entrada** | Tipo **Texto**. Pregunta: **¿En qué estás gastando?** |
    | 6 | **Obtener contenido de URL** | URL = `TU_URL` (sin `?accion…`). Método **POST**. Cuerpo de la solicitud: **JSON** con los campos de abajo. |
-   | 7 | **Obtener valor del diccionario** | Clave `mensaje` del *Contenido de la URL* |
-   | 8 | **Mostrar notificación** | Texto = *Valor del diccionario* |
+   | 7 | **Mostrar notificación** | Texto = *Contenido de la URL* (de la acción 6) |
 
    Campos JSON de la acción 6 (todos tipo **Texto**):
 
@@ -104,7 +103,7 @@ Requiere iOS 17 o superior y la tarjeta agregada en Wallet.
 ### Extra: gastos en efectivo (atajo manual)
 
 Crea un **atajo normal** (no automatización) llamado *Anotar gasto* con las mismas
-acciones 1–8, pero agrega al principio **Solicitar entrada → Número → "¿Cuánto
+acciones 1–7, pero agrega al principio **Solicitar entrada → Número → "¿Cuánto
 gastaste?"** y usa esa respuesta como `monto`; pon `origen` = `Efectivo` y deja
 `comercio`/`tarjeta` vacíos. Puedes lanzarlo con Siri ("Oye Siri, anotar gasto"),
 desde un widget o con el botón de Acción.
@@ -129,6 +128,9 @@ desactiva *Ejecutar inmediatamente* (te pedirá confirmar antes de ejecutarse).
 Si prefieres escribir la categoría libremente, cambia la acción 4 por
 **Solicitar entrada**. El script agrega automáticamente a la pestaña
 **Categorías** cualquier categoría nueva que reciba (sin duplicar por mayúsculas).
+
+**Al probar con ▶ dice `"Monto inválido"`.**
+Es normal: sin una compra real no hay monto. Haz una compra con Apple Pay para probar de verdad.
 
 **La notificación dice "Token inválido".**
 Revisa que el token del atajo sea exactamente el del registro (`verToken`).
