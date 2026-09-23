@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      :root { --bg: #f6f7f9; --card: #fff; --text: #1d1d1f; --muted: #6e6e73; --accent: #0a84ff; --bar: #d6e6ff; }
+      @media (prefers-color-scheme: dark) {
+        :root { --bg: #000; --card: #1c1c1e; --text: #f5f5f7; --muted: #a1a1a6; --accent: #0a84ff; --bar: #173a66; }
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; padding: 16px; background: var(--bg); color: var(--text);
+             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+      .card { background: var(--card); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
+      h1 { font-size: 15px; font-weight: 500; color: var(--muted); margin: 0 0 4px; text-transform: capitalize; }
+      .total { font-size: 34px; font-weight: 700; font-variant-numeric: tabular-nums; }
+      h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 0 0 10px; }
+      .fila { position: relative; display: flex; justify-content: space-between; padding: 8px 10px;
+              margin-bottom: 6px; border-radius: 8px; overflow: hidden; font-variant-numeric: tabular-nums; }
+      .fila .barra { position: absolute; inset: 0 auto 0 0; background: var(--bar); z-index: 0; }
+      .fila span { position: relative; z-index: 1; }
+      .mov { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(128,128,128,.2); }
+      .mov:last-child { border-bottom: 0; }
+      .mov small { display: block; color: var(--muted); }
+      .vacio { color: var(--muted); }
+    </style>
+  </head>
+  <body>
+    <? var fmt = function (n) { return '$' + Number(n).toFixed(2); }; ?>
+    <div class="card">
+      <h1>Gastado en <?= datos.mes ?></h1>
+      <div class="total"><?= fmt(datos.total) ?></div>
+    </div>
+
+    <div class="card">
+      <h2>Por categoría</h2>
+      <? if (!datos.categorias.length) { ?><p class="vacio">Todavía no hay gastos este mes.</p><? } ?>
+      <? datos.categorias.forEach(function (c) { var pct = datos.total ? Math.round(c.total / datos.total * 100) : 0; ?>
+        <div class="fila">
+          <div class="barra" style="width: <?= pct ?>%"></div>
+          <span><?= c.nombre ?></span><span><?= fmt(c.total) ?> · <?= pct ?>%</span>
+        </div>
+      <? }); ?>
+    </div>
+
+    <div class="card">
+      <h2>Últimos movimientos</h2>
+      <? datos.ultimos.forEach(function (m) { ?>
+        <div class="mov">
+          <div><?= m.descripcion || m.categoria ?><small><?= m.categoria ?> · <?= m.fecha ?></small></div>
+          <strong><?= fmt(m.monto) ?></strong>
+        </div>
+      <? }); ?>
+    </div>
+  </body>
+</html>
